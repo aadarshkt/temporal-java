@@ -7,7 +7,6 @@ import java.util.Optional;
 
 /**
  * Holds all registered {@link TaskHandler} instances keyed by action name.
- * Equivalent to: type TaskRegistry map[string]TaskHandler
  */
 public class TaskRegistry {
 
@@ -34,15 +33,13 @@ public class TaskRegistry {
         return handlers.containsKey(action);
     }
 
-    // -------------------------------------------------------------------------
-    // Factory
-    // -------------------------------------------------------------------------
+    /* -------------------------------------------------------------------------
+     *Factory
+    */
 
     /**
      * Wires up all built-in task handlers.
-     * Equivalent to: func InitRegistry() TaskRegistry { ... }
-     *
-     * @return an initialised, immutable {@link TaskRegistry}
+     * @return an initialized, immutable {@link TaskRegistry}
      */
     public static TaskRegistry init() {
         Map<String, TaskHandler> registry = new HashMap<>();

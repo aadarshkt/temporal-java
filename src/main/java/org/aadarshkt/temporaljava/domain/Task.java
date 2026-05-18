@@ -29,6 +29,7 @@ public class Task {
 	@Column(nullable = false)
 	private UUID executionId;
 
+	// TODO: Check what is the purpose of this field. if it is not required let's remove it.
 	@Column(nullable = false, length = 100)
 	private String refId;
 

@@ -20,8 +20,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 @Getter
 @Entity
-@Table(name = "workflow_executions")
-public class WorkflowExecution {
+@Table(name = "workflows")
+public class Workflow {
 
 	@Id
 	@Column(nullable = false, updatable = false)
@@ -38,6 +38,7 @@ public class WorkflowExecution {
 	@Column(nullable = false, length = 20)
 	private WorkflowStatus status = WorkflowStatus.RUNNING;
 
+	// TODO: Remove this field this may be not required. Please confirm about this
 	@OneToMany(fetch = FetchType.LAZY)
 	@JoinColumn(name = "execution_id", referencedColumnName = "id", insertable = false, updatable = false)
 	private List<Task> tasks;
@@ -50,11 +51,11 @@ public class WorkflowExecution {
 	@Column(nullable = false)
 	private Instant updatedAt;
 
-	protected WorkflowExecution() {
+	protected Workflow() {
 	}
 
-	public static WorkflowExecution newWorkflow(UUID userId, String workflowType) {
-		WorkflowExecution workflow = new WorkflowExecution();
+	public static Workflow newWorkflow(UUID userId, String workflowType) {
+		Workflow workflow = new Workflow();
 		workflow.id = UUID.randomUUID();
 		workflow.userId = userId;
 		workflow.workflowType = workflowType;

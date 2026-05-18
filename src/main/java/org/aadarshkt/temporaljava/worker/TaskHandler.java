@@ -5,7 +5,7 @@ package org.aadarshkt.temporaljava.worker;
  * Equivalent to: type TaskHandler func(ctx context.Context, input []byte) ([]byte, error)
  *
  * <p>Implementations should check {@link Thread#interrupted()} periodically
- * to honour cancellation (analogous to {@code ctx.Done()} in Go).
+ * to honor cancellation (analogous to {@code ctx.Done()} in Go).
  */
 @FunctionalInterface
 public interface TaskHandler {

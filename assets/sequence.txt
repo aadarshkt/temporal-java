@@ -1,0 +1,14 @@
+handler -> workflowService: request validation, transform request to dto
+workflowService -> taskRepository: convert dto to domain object and save it. 
+workflowService -> taskQueue: add root tasks to taskQueue
+
+
+worker -> taskQueue: get task from taskQueue by taskID
+worker -> taskRepository: get task from taskID
+worker -> taskRegistry: get handler function according to task's action field
+worker -> eventBus: publish success/terminated/skipped events through channels.
+worker -> taskRepository: save task's output if success
+
+coordinator -> eventBus: subscribe to success and terminated/skipped events
+coordinator -> taskRepository: decrease the indegree of tasks and propagate failure/skipped events
+coordinator -> workflowRepo: if workflow is finished update the repo
