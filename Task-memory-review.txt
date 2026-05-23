@@ -12,3 +12,10 @@
 7. One optimization can be done here - handleTaskTerminated method in coordinator. We are pushing tasks with skipHint flag to taskQueue again, which is not required. verify this. okay this is important as we have to propage skipHint flag.
 8. Implement websocket for task tracking, using executionID.
 9. Add UI for task tracking and monitoring.
+10. There should be graceful shutdown of worker. If worker dies it should push the tasks back to the taskQueue before dying. We can use shutdown hook for this. Also check rabbitMQ's manual ack for this. althrough reaper can also handle this. after system is back online, worker should resume from where it left off.
+
+
+
+Tasks -
+
+1. Change retryCount to attemptCount in sequenceDiagram.txt

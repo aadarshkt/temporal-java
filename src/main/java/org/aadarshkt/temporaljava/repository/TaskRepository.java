@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 @Repository
@@ -51,5 +53,20 @@ public interface TaskRepository extends JpaRepository<Task, UUID>, TaskRepositor
 
     default boolean areAllTasksCompleted(UUID executionId) {
         return areAllTasksCompletedInternal(executionId, TaskStatus.COMPLETED);
+    }
+
+    @Query("SELECT t FROM Task t WHERE t.status = :status AND t.updatedAt < :timeoutThreshold")
+    List<Task> findDeadTasksInternal(@Param("status") TaskStatus status, @Param("timeoutThreshold") Instant timeoutThreshold);
+
+    default List<Task> findDeadTasks(Instant timeoutThreshold) {
+        return findDeadTasksInternal(TaskStatus.RUNNING, timeoutThreshold);
+    }
+
+    @Modifying
+    @Query("UPDATE Task t SET t.status = :targetStatus, t.attemptCount = t.attemptCount + 1, t.lastError = :error, t.version = t.version + 1 WHERE t.id = :taskId AND t.status = :expectedStatus")
+    int safeReapTaskInternal(@Param("taskId") UUID taskId, @Param("error") String error, @Param("expectedStatus") TaskStatus expectedStatus, @Param("targetStatus") TaskStatus targetStatus);
+
+    default int safeReapTask(UUID taskId, String error) {
+        return safeReapTaskInternal(taskId, error, TaskStatus.RUNNING, TaskStatus.QUEUED);
     }
 }
