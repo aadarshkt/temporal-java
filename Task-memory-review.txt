@@ -10,3 +10,5 @@
     }
 6. Try to merge even taskTerminated event and taskTerminated event. they share common fields.   
 7. One optimization can be done here - handleTaskTerminated method in coordinator. We are pushing tasks with skipHint flag to taskQueue again, which is not required. verify this. okay this is important as we have to propage skipHint flag.
+8. Implement websocket for task tracking, using executionID.
+9. Add UI for task tracking and monitoring.
