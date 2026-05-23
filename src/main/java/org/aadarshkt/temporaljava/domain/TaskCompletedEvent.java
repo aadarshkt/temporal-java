@@ -1,6 +1,5 @@
 package org.aadarshkt.temporaljava.domain;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.UUID;
 import lombok.Getter;
 

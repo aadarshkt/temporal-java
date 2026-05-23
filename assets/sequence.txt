@@ -20,8 +20,8 @@ retryWorker -> eventBus: publish failed tasks to terminated events channel.
 coordinator -> eventBus: subscribe to success and terminated events through different channels
 coordinator -> taskRepository: decrease the indegree of tasks and propagate failed/skipped events, with skipHint flag
 coordinator -> workflowRepo: if workflow is finished update the repo
+coordinator -> taskQueue: push zero indegree tasks(readyTasks)
 
 reaper ->taskRepository: check for pending tasks that were created for 10 mins or more every 10 mins. 
 
 reaper -> taskQueue: push pending tasks
-
