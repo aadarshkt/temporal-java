@@ -17,6 +17,7 @@ Temporal Java is a lightweight, workflow orchestration engine built in Java usin
 - **Framework**: Spring Boot 4.0.5, Spring Modulith
 - **Persistence**: Spring Data JPA, Flyway for migrations
 - **Caching & Sessions**: Redis
+- **Message Broker & Queues**: RabbitMQ
 - **Web**: Spring WebMVC, WebSockets, HTMX
 - **API Documentation**: Springdoc OpenAPI
 - **Observability**: Micrometer (Prometheus, Datadog)
@@ -66,6 +67,7 @@ sequenceDiagram
    coordinator -> eventBus: subscribe to success and terminated events through different channels
    coordinator -> taskRepository: decrease the indegree of tasks and propagate failed/skipped events, with skipHint flag
    coordinator -> workflowRepo: if workflow is finished update the repo
+   coordinator -> taskQueue: push zero indegree tasks(readyTasks)
 
    reaper ->taskRepository: check for pending tasks that were created for 10 mins or more every 10 mins. 
 
@@ -77,11 +79,14 @@ sequenceDiagram
 The project is structured into distinct modules, adhering to Domain-Driven Design and Spring Modulith principles:
 
 - **`api`**: Contains REST controllers, request validation, and transformation logic.
-- **`service`**: Core business logic layer, containing services like `WorkflowService`, coordinators, and reapers.
+- **`config`**: Configuration classes for integrations like RabbitMQ.
+- **`coordinator`**: Manages event subscriptions and coordinates state transitions (e.g., updating task dependencies).
 - **`domain`**: Core domain models, entities, and value objects.
+- **`queue`**: Task and retry queue interfaces and their implementations.
 - **`repository`**: Data access layer for managing database operations for tasks and workflows.
+- **`service`**: Core business logic layer, containing services like `WorkflowService`, `ReaperService`, and EventBus implementations.
 - **`worker`**: Background processing components, including the main worker and retry worker, interacting with queues and the task registry.
-- **`common`**: Shared utilities, cross-cutting concerns, and configuration.
+- **`common`**: Shared utilities and cross-cutting concerns.
 
 ## Getting Started
 
