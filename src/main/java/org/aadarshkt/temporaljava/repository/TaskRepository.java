@@ -39,11 +39,11 @@ public interface TaskRepository extends JpaRepository<Task, UUID>, TaskRepositor
     }
 
     @Modifying
-    @Query("UPDATE Task t SET t.retryCount = t.retryCount + 1, t.status = :status, t.version = t.version + 1 WHERE t.id = :taskId AND t.version = :currentVersion")
-    int incrementRetryCountInternal(@Param("taskId") UUID taskId, @Param("currentVersion") int currentVersion, @Param("status") TaskStatus status);
+    @Query("UPDATE Task t SET t.attemptCount = t.attemptCount + 1, t.status = :status, t.version = t.version + 1 WHERE t.id = :taskId AND t.version = :currentVersion")
+    int incrementAttemptCountInternal(@Param("taskId") UUID taskId, @Param("currentVersion") int currentVersion, @Param("status") TaskStatus status);
 
-    default int incrementRetryCount(UUID taskId, int currentVersion) {
-        return incrementRetryCountInternal(taskId, currentVersion, TaskStatus.PENDING);
+    default int incrementAttemptCount(UUID taskId, int currentVersion) {
+        return incrementAttemptCountInternal(taskId, currentVersion, TaskStatus.PENDING);
     }
 
     @Query("SELECT COUNT(t) = 0 FROM Task t WHERE t.executionId = :executionId AND t.status <> :completedStatus")

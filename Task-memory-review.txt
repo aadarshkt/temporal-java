@@ -1,0 +1,11 @@
+1. Check for logic of manual requeueing and auto requeueing by rabbitMq.
+2. Check for how ack to rabbitMQ by worker is managed. is it auto ack or manual ack? if manual ack, then when ack is sent?
+3. what is refId
+4. what is this - BlockingQueue<TaskTerminatedEvent> subscribeToTerminationEvents();
+5. How does this work - @Override
+    public BlockingQueue<TaskCompletedEvent> subscribeToCompletedEvents() {
+        log.warn("subscribeToCompletedEvents called - Placeholder for Coordinator");
+        // Placeholder for future coordinator subscription
+        return new LinkedBlockingQueue<>();
+    }
+6. Try to merge even taskTerminated event and taskTerminated event. they share common fields.   

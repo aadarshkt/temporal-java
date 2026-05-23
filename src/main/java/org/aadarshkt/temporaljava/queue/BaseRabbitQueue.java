@@ -27,30 +27,4 @@ public abstract class BaseRabbitQueue implements BaseQueue {
         }
     }
 
-    @Override
-    public UUID pop(long timeoutMillis) {
-        try {
-            Object message = rabbitTemplate.receiveAndConvert(queueName, timeoutMillis);
-            if (message != null) {
-                return UUID.fromString(message.toString());
-            }
-            return null;
-        } catch (Exception e) {
-            log.error("Failed to pop from queue {}", queueName, e);
-            throw new RuntimeException("Failed to pop from RabbitMQ", e);
-        }
-    }
-
-    @Override
-    public UUID pop() {
-        while (!Thread.currentThread().isInterrupted()) {
-            // Poll the queue. Block for 2 seconds, if nothing is returned, retry.
-            // This mimics the 'Wait forever' behaviour of Redis BLPop(0).
-            UUID taskId = pop(2000); 
-            if (taskId != null) {
-                return taskId;
-            }
-        }
-        return null;
-    }
 }

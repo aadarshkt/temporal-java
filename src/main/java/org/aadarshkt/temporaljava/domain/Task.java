@@ -43,7 +43,7 @@ public class Task {
 
 	@Setter
     @Column(nullable = false)
-	private int retryCount = 0;
+	private int attemptCount = 0;
 
 	@Column(nullable = false)
 	private final int maxRetries = 3;
@@ -69,7 +69,8 @@ public class Task {
     @Column(length = 100)
 	private String workerId;
 
-	@Column(nullable = false)
+	@Setter
+    @Column(nullable = false)
 	private int version = 1;
 
 	@Setter
@@ -106,7 +107,7 @@ public class Task {
 	}
 
 	public boolean canRetry(int maxRetry) {
-		return this.retryCount < maxRetry;
+		return this.attemptCount < maxRetry;
 	}
 
 }

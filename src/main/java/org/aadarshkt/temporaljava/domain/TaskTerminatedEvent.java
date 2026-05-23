@@ -13,6 +13,7 @@ public class TaskTerminatedEvent {
     @JsonProperty("task_id")
     private final UUID taskId;
 
+    //TODO: Check what is the purpose of this field. if it is not required let's remove it.
     @JsonProperty("ref_id")
     private final String refId;
 
