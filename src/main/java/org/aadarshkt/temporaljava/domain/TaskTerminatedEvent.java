@@ -5,17 +5,7 @@ import java.util.UUID;
 import lombok.Getter;
 
 @Getter
-public class TaskTerminatedEvent {
-
-    @JsonProperty("execution_id")
-    private final UUID executionId;
-
-    @JsonProperty("task_id")
-    private final UUID taskId;
-
-    //TODO: Check what is the purpose of this field. if it is not required let's remove it.
-    @JsonProperty("ref_id")
-    private final String refId;
+public class TaskTerminatedEvent extends TaskEvent {
 
     @JsonProperty("type")
     private final TaskTerminationType type;
@@ -24,9 +14,7 @@ public class TaskTerminatedEvent {
     private final String error;
 
     private TaskTerminatedEvent(UUID executionId, UUID taskId, String refId, TaskTerminationType type, String error) {
-        this.executionId = executionId;
-        this.taskId = taskId;
-        this.refId = refId;
+        super(executionId, taskId, refId);
         this.type = type;
         this.error = error;
     }

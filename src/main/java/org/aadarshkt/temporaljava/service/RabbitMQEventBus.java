@@ -9,9 +9,6 @@ import org.aadarshkt.temporaljava.domain.TaskTerminatedEvent;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
-
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -47,19 +44,5 @@ public class RabbitMQEventBus implements EventBus {
             log.error("Failed to serialize TaskTerminatedEvent", e);
             throw new RuntimeException("Failed to serialize event", e);
         }
-    }
-
-    @Override
-    public BlockingQueue<TaskCompletedEvent> subscribeToCompletedEvents() {
-        log.warn("subscribeToCompletedEvents called - Placeholder for Coordinator");
-        // Placeholder for future coordinator subscription
-        return new LinkedBlockingQueue<>();
-    }
-
-    @Override
-    public BlockingQueue<TaskTerminatedEvent> subscribeToTerminationEvents() {
-        log.warn("subscribeToTerminationEvents called - Placeholder for Coordinator");
-        // Placeholder for future coordinator subscription
-        return new LinkedBlockingQueue<>();
     }
 }

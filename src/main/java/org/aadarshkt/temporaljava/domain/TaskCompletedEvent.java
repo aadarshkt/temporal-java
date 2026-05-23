@@ -5,21 +5,10 @@ import java.util.UUID;
 import lombok.Getter;
 
 @Getter
-public class TaskCompletedEvent {
-
-    @JsonProperty("execution_id")
-    private final UUID executionId;
-
-    @JsonProperty("task_id")
-    private final UUID taskId;
-
-    @JsonProperty("ref_id")
-    private final String refId;
+public class TaskCompletedEvent extends TaskEvent {
 
     private TaskCompletedEvent(UUID executionId, UUID taskId, String refId) {
-        this.executionId = executionId;
-        this.taskId = taskId;
-        this.refId = refId;
+        super(executionId, taskId, refId);
     }
 
     public static TaskCompletedEvent of(UUID executionId, UUID taskId, String refId) {
